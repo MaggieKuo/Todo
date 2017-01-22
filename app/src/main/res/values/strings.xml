@@ -74,4 +74,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="setting">Setting</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
