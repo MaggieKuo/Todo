@@ -53,7 +53,7 @@ public class TodoRecyclerAdapter extends RecyclerView.Adapter<TodoRecyclerAdapte
 
     public interface OnItemClickListener{
         void onItemCheck(Todo todo, boolean isChecked);
-        void onItemClick(Todo todo);
+        void onItemClick(Todo todo, int position);
         void onItemDelete(Todo todo, int position);
     }
 
@@ -114,7 +114,7 @@ public class TodoRecyclerAdapter extends RecyclerView.Adapter<TodoRecyclerAdapte
 
         @Override
         public void onClick(View v) {
-            itemClickListener.onItemClick(todo);
+            itemClickListener.onItemClick(todo, position);
         }
 
         @Override

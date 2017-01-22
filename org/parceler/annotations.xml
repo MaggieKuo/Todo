@@ -1,0 +1,5 @@
+<root>
+  <item name='org.parceler.Parcel.Serialization FIELD'>
+    <annotation name='android.support.annotation.NonNull' />
+  </item>
+</root>

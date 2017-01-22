@@ -23,6 +23,9 @@ android {
 }
 
 def dbflow_version = "3.1.1"
+def lombok_version = "1.16.12"
+def butterknife_version = "8.4.0"
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -38,11 +41,13 @@ dependencies {
     compile 'org.parceler:parceler-api:1.1.1'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile "com.jakewharton:butterknife:${butterknife_version}"
+    apt "com.jakewharton:butterknife-compiler:${butterknife_version}"
     testCompile 'junit:junit:4.12'
     apt 'org.parceler:parceler:1.1.1'
-    provided "org.projectlombok:lombok:1.12.6"
-    apt "org.projectlombok:lombok:1.12.6"
+    provided "org.projectlombok:lombok:${lombok_version}"
+    apt "org.projectlombok:lombok:${lombok_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+//    provided 'pl.mg6.hrisey:hrisey:0.3.1'
 }

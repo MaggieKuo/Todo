@@ -1,9 +1,11 @@
 package com.mag.todo;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -23,20 +26,13 @@ import butterknife.OnClick;
 public class EditTodoActivity extends AppCompatActivity {
 
     private static final String TAG = EditTodoActivity.class.getSimpleName();
-    @BindView(R.id.checkDone)
-    CheckBox checkDone;
-    @BindView(R.id.spinner_priority)
-    Spinner spinnerPriority;
-    @BindView(R.id.datePicker2)
-    DatePicker todoDatePicker;
-    @BindView(R.id.button)
-    Button btnSave;
-    @BindView(R.id.activity_edit_todo)
-    ConstraintLayout activityEditTodo;
-    @BindView(R.id.edit_item)
-    EditText editItem;
-    @BindView(R.id.edit_detail)
-    EditText editDetail;
+    @BindView(R.id.checkDone) CheckBox checkDone;
+    @BindView(R.id.spinner_priority) Spinner spinnerPriority;
+    @BindView(R.id.datePicker2) DatePicker todoDatePicker;
+    @BindView(R.id.button) Button btnSave;
+//    @BindView(R.id.activity_edit_todo) ConstraintLayout activityEditTodo;
+    @BindView(R.id.edit_item) EditText editItem;
+    @BindView(R.id.edit_detail) EditText editDetail;
 
     private ArrayAdapter<CharSequence> adapter;
     private Todo todo;
@@ -47,6 +43,14 @@ public class EditTodoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_todo);
         ButterKnife.bind(this);
         todo = getIntent().getParcelableExtra(Todo.TODO_BEAN);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setup();
+
         if (todo ==null) {
 //            todo = new Todo();
             Calendar c = Calendar.getInstance();
@@ -57,6 +61,8 @@ public class EditTodoActivity extends AppCompatActivity {
         }else{
             checkDone.setChecked(todo.getStatus()==Todo.STATUS_DONE);
             Calendar c = Calendar.getInstance();
+            Log.d(TAG, "todo.getTodoDate()==null : " + (todo.getTodoDate()==null));
+            Log.d(TAG, "cdate=" + todo.getCdate());
             c.setTime(todo.getTodoDate());
             todoDatePicker.updateDate(
                     c.get(c.YEAR),
@@ -68,7 +74,7 @@ public class EditTodoActivity extends AppCompatActivity {
             spinnerPriority.setSelection(todo.getPriority());
         }
 
-        setup();
+
     }
 
     private void setup() {
@@ -99,8 +105,12 @@ public class EditTodoActivity extends AppCompatActivity {
             editItem.setError("please enter item");
             return;
         }
-        if (todo==null)
+
+        if (todo==null){
             isAdd = true;
+            todo = new Todo();
+        }
+
         todo.setStatus(checkDone.isChecked() ? 1 : 0);
         Calendar c = Calendar.getInstance();
         c.set(todoDatePicker.getYear(), todoDatePicker.getMonth(), todoDatePicker.getDayOfMonth());
@@ -112,8 +122,8 @@ public class EditTodoActivity extends AppCompatActivity {
         else
             todo.update();
 
+//        getIntent().putExtra(Todo.TODO_BEAN, (Parcelable) todo);
         setResult(RESULT_OK);
         finish();
-
     }
 }

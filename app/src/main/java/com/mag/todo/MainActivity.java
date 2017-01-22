@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditTodoActivity.class);
-                startActivity(intent);
+                intent.putExtra("MODE", "ADD");
+                startActivityForResult(intent, REQUEST_EDIT);
 
 /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -179,14 +180,14 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
     }
 
     @Override
-    public void onItemClick(Todo todo) {
+    public void onItemClick(Todo todo, int position) {
         Log.d(TAG, "onItemClick " + todo.getItem());
         Intent intent = new Intent(this, EditTodoActivity.class);
         intent.putExtra(Todo.TODO_BEAN, (Parcelable) todo);
+        intent.putExtra("MODE", "EDIT");
+        intent.putExtra("POSITION", position);
         startActivityForResult(intent,REQUEST_EDIT );
         startActivity(intent);
-        // TODO start another activity
-
     }
 
     @Override
@@ -200,8 +201,11 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult " + requestCode + " /" + resultCode);
         if (requestCode==REQUEST_EDIT && resultCode==RESULT_OK){
-            change_search();
+//            adapter.notifyDataSetChanged();
+//            data.getStringExtra()
+//            change_search();
         }
 
 

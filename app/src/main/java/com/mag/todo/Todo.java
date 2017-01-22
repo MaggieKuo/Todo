@@ -1,27 +1,33 @@
 package com.mag.todo;
 
+import android.os.Parcelable;
+
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import static com.mag.todo.Todo_Table.todoDate;
+
 
 /**
  * Created by Maggie on 2017/1/13.
  */
 
+
+@EqualsAndHashCode(callSuper = false)
 @Table(database = TodoDB.class)
-@Parcel(analyze = {Todo.class})
 @Data
-public class Todo extends BaseModel {
+@Parcel(analyze = {Todo.class})
+public class Todo extends BaseModel implements Parcelable {
     public static final int PRIORITY_HIGH = 2;
     public static final int PRIORITY_MEDIUM = 1;
     public static final int PRIORITY_LOW = 0;
@@ -53,7 +59,7 @@ public class Todo extends BaseModel {
 
     String cdate;
 
-    public static List<Todo> getTodoList(){
+ /*   public static List<Todo> getTodoList(){
         List<Todo> todoList = SQLite.select()
                 .from(Todo.class)
                 .orderBy(Todo_Table.todoDate, true)
@@ -69,7 +75,56 @@ public class Todo extends BaseModel {
                 .queryList();
 
         return todoList;
+    }*/
+
+    public Todo() {
     }
+
+    @ParcelConstructor
+    public Todo(long _id, String detail, String item, int priority, int status, Date todoDate) {
+        this._id = _id;
+        this.detail = detail;
+        this.item = item;
+        this.priority = priority;
+        this.status = status;
+        this.todoDate = todoDate;
+    }
+
+    protected Todo(android.os.Parcel in) {
+        _id = in.readLong();
+        priority = in.readInt();
+        detail = in.readString();
+        item = in.readString();
+        status = in.readInt();
+        todoDate = (Date) in.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(android.os.Parcel dest, int flags) {
+        dest.writeLong(_id);
+        dest.writeInt(priority);
+        dest.writeString(detail);
+        dest.writeString(item);
+        dest.writeInt(status);
+        dest.writeSerializable(todoDate);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Todo> CREATOR = new Creator<Todo>() {
+        @Override
+        public Todo createFromParcel(android.os.Parcel in) {
+            return new Todo(in);
+        }
+
+        @Override
+        public Todo[] newArray(int size) {
+            return new Todo[size];
+        }
+    };
 
     public String getCdate(){
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
