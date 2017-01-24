@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -71,9 +72,8 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditTodoActivity.class);
-                intent.putExtra("MODE", "ADD");
+                intent.putExtra(Todo.EDIT_MODE, Todo.EDIT_MODE_ADD);
                 startActivityForResult(intent, REQUEST_EDIT);
-
 /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
         lvItems = (RecyclerView) findViewById(R.id.lvItems2);
         lvItems.setHasFixedSize(true);
         lvItems.setLayoutManager(new LinearLayoutManager(this));
+        lvItems.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         adapter = new TodoRecyclerAdapter((ArrayList<Todo>) lists, this);
         lvItems.setAdapter(adapter);
         change_search();
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
                 change_search();
             }
         });
+
     }
 
     private void change_search(){
@@ -132,10 +135,12 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
         switch (orderBy) {
             case R.id.radio_priority:
                 iProperty = Todo_Table.priority;
+                iProperty.plus(Todo_Table.todoDate);
                 orderASC = false;
                 break;
             case R.id.radio_duedate:
                 iProperty = Todo_Table.todoDate;
+                iProperty.plus(Todo_Table.priority);
                 orderASC = true;
                 break;
         }
@@ -167,27 +172,25 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
         }
 
         adapter.setTodoLists((ArrayList<Todo>) lists);
-        Log.d(TAG, "count=" + adapter.getItemCount());
     }
 
 
     @Override
     public void onItemCheck(Todo todo, boolean isChecked) {
-
-        Log.d(TAG, "onItemCheck =" + todo.item + isChecked);
         todo.setStatus(isChecked ? Todo.STATUS_DONE : Todo.STATUS_TO_DO);
         todo.save();
     }
 
     @Override
     public void onItemClick(Todo todo, int position) {
-        Log.d(TAG, "onItemClick " + todo.getItem());
+        Log.d(TAG, "onItemClick " + todo.getItem() + "/ position=" + position);
         Intent intent = new Intent(this, EditTodoActivity.class);
+
         intent.putExtra(Todo.TODO_BEAN, (Parcelable) todo);
-        intent.putExtra("MODE", "EDIT");
-        intent.putExtra("POSITION", position);
+        intent.putExtra(Todo.EDIT_MODE, Todo.EDIT_MODE_MODIFY);
+        intent.putExtra(Todo.POSITION, position);
+
         startActivityForResult(intent,REQUEST_EDIT );
-        startActivity(intent);
     }
 
     @Override
@@ -201,8 +204,20 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult " + requestCode + " /" + resultCode);
         if (requestCode==REQUEST_EDIT && resultCode==RESULT_OK){
+            if (Todo.EDIT_MODE_MODIFY.equals(data.getStringExtra(Todo.EDIT_MODE))){
+                int position = data.getIntExtra(Todo.POSITION, -1);
+                Log.d(TAG, " onActivityResult  position=" + position);
+                if (position>-1){
+                    lists.set(position, (Todo) data.getParcelableExtra(Todo.TODO_BEAN));
+                    adapter.notifyDataSetChanged();
+                }
+            }else {
+                lists.add(0, (Todo) data.getParcelableExtra(Todo.TODO_BEAN));
+                adapter.notifyDataSetChanged();
+            }
+
+//            data.getCharExtra("")
 //            adapter.notifyDataSetChanged();
 //            data.getStringExtra()
 //            change_search();
@@ -210,4 +225,5 @@ public class MainActivity extends AppCompatActivity implements TodoRecyclerAdapt
 
 
     }
+
 }

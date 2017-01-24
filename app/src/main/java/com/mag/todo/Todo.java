@@ -12,10 +12,9 @@ import org.parceler.ParcelConstructor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import static com.mag.todo.Todo_Table.todoDate;
 
 
 /**
@@ -37,6 +36,10 @@ public class Todo extends BaseModel implements Parcelable {
     public static final String TODO_BEAN = "TODO";
     //    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String EDIT_MODE = "MODE";
+    public static final String EDIT_MODE_ADD = "ADD";
+    public static final String EDIT_MODE_MODIFY = "MODIFY";
+    public static final String POSITION = "POSITION";
 
     @PrimaryKey(autoincrement = true)
     @Column

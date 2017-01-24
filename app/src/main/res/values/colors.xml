@@ -4,8 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPriorityHigh">#E53935</color>
-    <color name="colorPriorityMedium">#FF5722</color>
+    <color name="colorPriorityMedium">#AA5766</color>
     <color name="colorPriorityLow">#009688</color>
     <color name="colorTodoDone">#0D47A1</color>
-    <color name="colorTodoDoneBackground">#DCEDC8</color>
+    <color name="colorTodoDoneBackground">#dcedc8</color>
+    <color name="colorFilterBackground">#9dc3fd</color>
+    <color name="colorOverdue">#E53935</color>
 </resources>

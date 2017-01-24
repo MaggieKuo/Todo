@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_header_display">顯示</string>
+    <string name="pref_title_display_done">已完成項目</string>
+    <string name="pref_title_display_name">名字</string>
+    <string name="pref_title_display_overdue">逾期項目</string>
+    <string name="pref_title_order_by">排序</string>
+    <string name="setting">設定</string>
+    <string name="title_activity_main"></string>
+    <string name="title_activity_settings">設定</string>
+</resources>

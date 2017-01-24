@@ -2,10 +2,8 @@ package com.mag.todo;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -26,6 +23,7 @@ import butterknife.OnClick;
 public class EditTodoActivity extends AppCompatActivity {
 
     private static final String TAG = EditTodoActivity.class.getSimpleName();
+
     @BindView(R.id.checkDone) CheckBox checkDone;
     @BindView(R.id.spinner_priority) Spinner spinnerPriority;
     @BindView(R.id.datePicker2) DatePicker todoDatePicker;
@@ -44,11 +42,10 @@ public class EditTodoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         todo = getIntent().getParcelableExtra(Todo.TODO_BEAN);
 
-    }
+        if (todo == null && Todo.EDIT_MODE_MODIFY.equals(getIntent().getStringExtra(Todo.EDIT_MODE))){
+            finish();
+        }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         setup();
 
         if (todo ==null) {
@@ -61,8 +58,6 @@ public class EditTodoActivity extends AppCompatActivity {
         }else{
             checkDone.setChecked(todo.getStatus()==Todo.STATUS_DONE);
             Calendar c = Calendar.getInstance();
-            Log.d(TAG, "todo.getTodoDate()==null : " + (todo.getTodoDate()==null));
-            Log.d(TAG, "cdate=" + todo.getCdate());
             c.setTime(todo.getTodoDate());
             todoDatePicker.updateDate(
                     c.get(c.YEAR),
@@ -74,15 +69,13 @@ public class EditTodoActivity extends AppCompatActivity {
             spinnerPriority.setSelection(todo.getPriority());
         }
 
-
     }
+
 
     private void setup() {
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.priority_array,
                 android.R.layout.simple_spinner_dropdown_item);
-        Log.d(TAG, "count=" + adapter.getCount());
-        Log.d(TAG, "spinnerPriority==null : " + (spinnerPriority == null));
         spinnerPriority.setAdapter(adapter);
         spinnerPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -95,19 +88,21 @@ public class EditTodoActivity extends AppCompatActivity {
 
             }
         });
+
+
+
     }
 
     @OnClick(R.id.button)
     public void onClick() {
-        boolean isAdd = false;
-        Log.d(TAG, "save");
+        boolean isadd = false;
         if (TextUtils.isEmpty(editItem.getText().toString())){
             editItem.setError("please enter item");
             return;
         }
 
         if (todo==null){
-            isAdd = true;
+            isadd = true;
             todo = new Todo();
         }
 
@@ -117,13 +112,15 @@ public class EditTodoActivity extends AppCompatActivity {
         todo.setTodoDate(c.getTime());
         todo.setItem(editItem.getText().toString());
         todo.setDetail(editDetail.getText().toString());
-        if (isAdd)
+        todo.setPriority(spinnerPriority.getSelectedItemPosition());
+
+        if (isadd)
             todo.save();
         else
             todo.update();
 
-//        getIntent().putExtra(Todo.TODO_BEAN, (Parcelable) todo);
-        setResult(RESULT_OK);
+        getIntent().putExtra(Todo.TODO_BEAN, (Parcelable) todo);
+        setResult(RESULT_OK, getIntent());
         finish();
     }
 }
