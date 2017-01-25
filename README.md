@@ -27,7 +27,7 @@ The following **additional** features are implemented:
 
 * [x] Use RecyclerView display Todo lists. Different priority, overdue or not, finished or not with different text color.
 * [x] Click a todo item will start another activity to edit data.
-* [x] Long click a todo item will be delete it.
+* [x] Long click a todo item will delete it.
 * [x] User Finished the todo item just click lists item checkbox.
 * [x] Two choices, sort by priority or duedate.
 * [x] Display overdue data or not.
