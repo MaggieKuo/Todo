@@ -6,8 +6,9 @@
     <color name="colorPriorityHigh">#E53935</color>
     <color name="colorPriorityMedium">#AA5766</color>
     <color name="colorPriorityLow">#009688</color>
-    <color name="colorTodoDone">#0D47A1</color>
+    <color name="colorTodoDone">#9f9f9f</color>
     <color name="colorTodoDoneBackground">#dcedc8</color>
     <color name="colorFilterBackground">#9dc3fd</color>
     <color name="colorOverdue">#E53935</color>
+    <color name="colorObjectBackground">#ccdffd</color>
 </resources>

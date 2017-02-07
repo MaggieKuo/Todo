@@ -4,7 +4,7 @@
 
 Submitted by: **Maggie Kuo**
 
-Time spent: **1** hour spent in total
+Time spent: **15** hour spent in total
 
 ## User Stories
 
@@ -27,8 +27,8 @@ The following **additional** features are implemented:
 
 * [x] Use RecyclerView display Todo lists. Different priority, overdue or not, finished or not with different text color.
 * [x] Click a todo item will start another activity to edit data.
-* [x] Long click a todo item will be delete it.
-* [x] User Finished the todo item just click lists item checkbox.
+* [x] Long click a todo item will delete it.
+* [x] User Finished the todo item, just click lists item checkbox.
 * [x] Two choices, sort by priority or duedate.
 * [x] Display overdue data or not.
 * [x] Display finished data or not.
@@ -37,11 +37,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-### Branch master
-<img src='https://github.com/MaggieKuo/Todo/blob/master/todo.gif' title='Todo' width='' alt='Todo' />
-
-### Branch DBFlow+Butterknife+Lombok
-<img src='https://github.com/MaggieKuo/Todo/blob/DBFlow%2BButterknife%2BLombok/todo2.gif' title='Todo' width='' alt='Todo' />
+<img src='https://github.com/MaggieKuo/Todo/blob/master/todo3.gif' title='Todo' width='' alt='Todo' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
