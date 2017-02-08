@@ -17,7 +17,7 @@
             android:parentActivityName=".activities.TodoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mag.todo.activities.TodoActivity" />
+                android:value=".activities.TodoActivity" />
         </activity>
         <activity
             android:name=".activities.MainActivity"
